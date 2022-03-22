@@ -1,0 +1,785 @@
+**************************************************
+Intermediate React Native Note Script
+**************************************************
+//--------------------------------------------------------------
+# วันที่ 1
+//--------------------------------------------------------------
+ตรวจสอบความพร้อมของเครื่องมือ
+
+VS Code
+---
+$ code -v
+
+Node JS
+---
+$ node -v
+$ npm -v
+$ npx -v
+
+Git
+---
+$ git  version
+
+Java JDK
+---
+$ java -version
+$ set JAVA_HOME
+
+Android SDK
+---
+$ android list target  (Windows)
+$ avdmanager list target (MacOS)
+
+MySQL
+---
+$ mysql -u root -p
+$ mysql -P 3333 -u root -p
+
+ADB Devices
+---
+$ adb devices
+
+ตรวจสอบเวอร์ชั่น React Native CLI
+---
+$ react-native -v
+
+ถอน React Native CLI เวอร์ชั่นปัจจุบันออก
+---
+$ npm uninstall -g react-native-cli
+
+ติดตั้ง React Native CLI
+---
+$ npm install -g react-native-cli
+
+บน MacOS
+---
+$ sudo npm install -g react-native-cli
+
+----------------------------------------------------------------
+การสร้าง App ด้วย React Native CLI
+----------------------------------------------------------------
+Step 1: คำสั่งขึ้นโปรเจ็กต์ใหม่
+---
+$ react-native init helloRNApp หรือ
+$ npx react-native init helloRNApp
+
+Step 2: เปิดเข้า VS Code
+---
+$ code helloRNApp -r
+
+Step 3: Start Metro
+---
+$ npm start หรือ
+$ npx react-native start
+
+*** หาก port 8081 ไม่ว่างให้ทำการเคลียร์ก่อน
+$ taskkill /F /IM node.exe  (Windows)
+
+$ ps aux | grep node (MacOS)
+$ kill -9 PID  (MacOS)
+
+Step 4: Run Application
+---
+Android
+---
+$ npm run android หรือ 
+$ npx react-native run-android
+
+iOS
+---
+$ npm run ios หรือ
+$ npx react-native run-ios
+
+Note:: การ Config Eslint (.eslintrc.js)
+---
+module.exports = {
+  root: true,
+  semi: [2, "never"],
+  extends: '@react-native-community',
+}
+
+Note:: การ Config Prettier (.prettierrc.js)
+---
+module.exports = {
+  bracketSpacing: true,
+  jsxBracketSameLine: true,
+  singleQuote: true,
+  trailingComma: 'all',
+  arrowParens: 'avoid',
+  tabWidth: 2,
+  semi: false,
+}
+
+//--------------------------------------------------------------
+# วันที่ 2
+//--------------------------------------------------------------
+Step 1: คำสั่งขึ้นโปรเจ็กต์ใหม่
+---
+$ react-native init coreUIRNApp หรือ
+$ npx react-native init coreUIRNApp
+
+Step 2: เปิดเข้า VS Code
+---
+$ code coreUIRNApp -r
+
+Step 3: Start Metro
+---
+$ npm start หรือ
+$ npx react-native start
+
+*** หาก port 8081 ไม่ว่างให้ทำการเคลียร์ก่อน
+$ taskkill /F /IM node.exe  (Windows)
+
+$ ps aux | grep node (MacOS)
+$ kill -9 PID  (MacOS)
+
+Step 4: Run Application
+---
+ก่อนจะรันขึ้น android ลองเช็คว่าเห็นอุปกรณ์หรือเปล่า
+---
+$ adb devices
+
+Android
+---
+$ npm run android หรือ 
+$ npx react-native run-android
+
+iOS
+---
+$ npm run ios หรือ
+$ npx react-native run-ios
+
+Note:: การ Config Eslint (.eslintrc.js)
+---
+module.exports = {
+  root: true,
+  semi: [2, "never"],
+  extends: '@react-native-community',
+}
+
+Note:: การ Config Prettier (.prettierrc.js)
+---
+module.exports = {
+  bracketSpacing: true,
+  jsxBracketSameLine: true,
+  singleQuote: true,
+  trailingComma: 'all',
+  arrowParens: 'avoid',
+  tabWidth: 2,
+  semi: false,
+}
+
+
+ตัวอย่างการวางโครงสร้างโฟลเดอร์และไฟล์โปรเจ็กต์
+----
+src
+    |-- assets
+        |-- images
+    |-- components
+    |-- navigation
+    |-- screens
+        |-- HomeScreen.js
+    |-- themes
+App.js
+index.js
+package.json
+
+การกำหนด StyleSheet
+แบบที่ 3 แยก Style Sheet ด้วยการใช้ Component StyleSheet
+---
+import { StyleSheet } from 'react-native';
+
+const styles = StyleSheet.create({
+  container: {
+    // height: '100%',
+    flex: 1,
+    backgroundColor: 'lightblue',
+    padding: 20,
+    paddingTop: 30,
+  },
+})
+
+import { StyleSheet } from 'react-native'
+export default StyleSheet.create({
+    container: {
+        backgroundColor: 'yellow',
+        padding: 20,
+        paddingTop: 30,
+    },
+    textTitle: {
+        color: 'blue',
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginTop: 15,
+        marginBottom:15
+    }
+})
+
+แบบที่ 4 แยก Style Sheet ด้วยการใช้ Component StyleSheet ไว้ภายนอกเพื่อเรียกใช้กับ component ได้หลายๆ ที่
+----
+# MainTheme.js
+
+import { StyleSheet } from 'react-native'
+
+export const colors = {
+  textDark: '#14478b',
+  textLight: '#f8f9f8',
+  forground: '#275ca5',
+  forground2: '#f2b80e',
+  forground3: '#dbeaf1',
+  forground4: '#44a6a6',
+  background: '#f27306',
+  background2: '#d61503',
+}
+
+export default MainTheme = StyleSheet.create({
+  header1: {
+    fontSize: 25,
+    fontWeight: '600',
+    color: colors.forground4,
+  },
+  header2: {
+    fontSize: 20,
+    fontWeight: '500',
+    fontStyle: 'italic',
+    color: colors.forground2,
+  },
+  body: {
+    fontSize: 16,
+    color: colors.textDark,
+  },
+  card: {
+    borderColor: colors.background2,
+    borderWidth: 5,
+    borderRadius: 10,
+    padding: 20,
+    width: '50%',
+    height: 150,
+  },
+})
+
+# HomeScreen.js
+
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import MainTheme, { colors } from '../themes/MainTheme'
+
+const HomeScreen = () => {
+  return (
+    <View style={styles.container}>
+      <View style={MainTheme.card}>
+        <Text style={MainTheme.header1}>Title</Text>
+        <Text style={MainTheme.header2}>Subtitle</Text>
+        <Text style={MainTheme.body}>This is a book.</Text>
+      </View>
+      <Text />
+      <View style={MainTheme.card}>
+        <Text style={MainTheme.header1}>Title</Text>
+        <Text style={MainTheme.header2}>Subtitle</Text>
+        <Text style={MainTheme.body}>This is a book.</Text>
+      </View>
+      <Text />
+      <View style={MainTheme.card}>
+        <Text style={MainTheme.header1}>Title</Text>
+        <Text style={MainTheme.header2}>Subtitle</Text>
+        <Text style={MainTheme.body}>This is a book.</Text>
+      </View>
+    </View>
+  )
+}
+
+export default HomeScreen
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.textLight,
+  },
+})
+
+การกำหนด Props
+---
+สร้างไฟล์ GreetingScreen.js
+
+การกำหนด State
+--
+สร้างไฟล์ CounterScreen.js
+
+SafeAreaView
+---
+SafeAreaScreen.js
+
+Platform OS
+---
+PlatformOS.js
+
+//--------------------------------------------------------------
+# วันที่ 3
+//--------------------------------------------------------------
+ตัวอย่างการวางโครงสร้างโฟลเดอร์และไฟล์โปรเจ็กต์
+----------------------------------------------------------------
+__tests__
+.bundle
+.git
+.vscode
+android
+ios
+node_modules
+src
+    |-- assets
+        |-- images
+            |-- login
+            |-- register
+    |-- components
+    |-- model
+        |-- Notifications.js
+    |-- navigation
+        |-- index.js
+    |-- screens
+        |-- comments
+            |-- Comment.js
+            |-- CommentScreen.android.js
+            |-- CommentScreen.ios.js
+        |-- HomeScreen.js
+        |-- LoginScreen.js
+        |-- RegisterScreen.js
+        |-- GreetingScreen.js
+        |-- CounterScreen.js
+        |-- DashboardScreen.js
+        |-- SafeAreaScreen.js
+        |-- PlatformOS.js
+        |-- ScrollViewScreen.js
+        |-- FlatListScreen.js
+        |-- FlatListWithSwiper.js
+        |-- FlexDemoScreen.js
+    |-- themes
+        |-- MainTheme.js
+.buckconfig
+.eslintrc.js
+.flowconfig
+.gitignore
+.prettierrc.js
+.ruby-version
+.watchmanconfig
+App.js
+app.json
+babel.config.js
+Gemfile
+Gemfile.lock
+index.js
+metro.config.js
+package-lock.json
+package.json
+
+ติดตั้ง Swipeable
+---
+$ npm i react-native-swipe-list-view
+
+การใช้งาน
+---
+import { SwipeListView } from 'react-native-swipe-list-view';
+
+<SwipeListView
+            data={this.state.listViewData}
+            renderItem={ (data, rowMap) => (
+                <View style={styles.rowFront}>
+                    <Text>I am {data.item.text} in a SwipeListView</Text>
+                </View>
+            )}
+            renderHiddenItem={ (data, rowMap) => (
+                <View style={styles.rowBack}>
+                    <Text>Left</Text>
+                    <Text>Right</Text>
+                </View>
+            )}
+            leftOpenValue={75}
+            rightOpenValue={-75}
+        />
+
+
+ติดตั้ง Icon
+---
+$ npm install react-native-vector-icons
+
+ทำการ Link
+---
+$ react-native link
+$ react-native link react-native-vector-icons 
+
+React Native Navigator V.6
+---
+Step 5: ติดตั้ง Dependency สำหรับทำ Navigation
+---
+จำเป็น
+---
+npm install @react-navigation/native@6.0.7
+npm install @react-navigation/native-stack@6.3.0
+npm install react-native-screens@3.10.2
+npm install react-native-safe-area-context@3.3.2
+
+ส่วนเสริม
+----
+npm install react-native-reanimated@2.2.x
+npm install @react-native-community/masked-view@0.1.x
+npm install react-native-gesture-handler@2.2.x
+
+สำหรับ Tab Navigation
+---
+npm install @react-navigation/bottom-tabs@6.1.x
+
+//--------------------------------------------------------------
+# วันที่ 4
+//--------------------------------------------------------------
+React Native Navigator V.6
+---
+ติดตั้ง Dependency สำหรับทำ Navigation
+---
+จำเป็น
+---
+npm install @react-navigation/native@6.0.7
+npm install @react-navigation/native-stack@6.3.0
+npm install react-native-screens@3.10.2
+npm install react-native-safe-area-context@3.3.2
+
+ส่วนเสริม
+----
+npm install react-native-reanimated@2.2.x
+npm install @react-native-community/masked-view@0.1.x
+npm install react-native-gesture-handler@2.2.x
+
+สำหรับ Tab Navigation
+---
+npm install @react-navigation/bottom-tabs@6.1.x
+
+*******************************************************
+WORKSHOP Combining Drawer Tab and Stack navigators
+********************************************************
+Step 1: คำสั่งขึ้นโปรเจ็กต์ใหม่
+---
+$ react-native init tabAndDrawerRNApp --version 0.64.2 หรือ
+$ npx react-native init tabAndDrawerRNApp --version 0.64.2
+
+Step 2: เปิดเข้า VS Code
+---
+$ code tabAndDrawerRNApp -r
+
+Step 3: Start Metro
+---
+$ npm start หรือ
+$ npx react-native start
+
+*** หาก port 8081 ไม่ว่างให้ทำการเคลียร์ก่อน
+$ taskkill /F /IM node.exe  (Windows)
+
+$ ps aux | grep node (MacOS)
+$ kill -9 PID  (MacOS)
+
+Step 4: Run Application
+---
+ก่อนจะรันขึ้น android ลองเช็คว่าเห็นอุปกรณ์หรือเปล่า
+---
+$ adb devices
+
+Android
+---
+$ npm run android หรือ 
+$ npx react-native run-android
+
+iOS
+---
+$ npm run ios หรือ
+$ npx react-native run-ios
+
+Note:: การ Config Eslint (.eslintrc.js)
+---
+module.exports = {
+  root: true,
+  semi: [2, "never"],
+  extends: '@react-native-community',
+}
+
+Note:: การ Config Prettier (.prettierrc.js)
+---
+module.exports = {
+  bracketSpacing: true,
+  jsxBracketSameLine: true,
+  singleQuote: true,
+  trailingComma: 'all',
+  arrowParens: 'avoid',
+  tabWidth: 2,
+  semi: false,
+}
+
+Step 5: ติดตั้ง Dependency สำหรับทำ Navigation
+---
+จำเป็น
+---
+npm install @react-navigation/native@6.0.5
+npm install @react-navigation/stack@6.0.10
+npm install react-native-screens@3.8.0
+npm install react-native-safe-area-context@3.3.2
+npm install react-native-reanimated@2.2.2
+npm install react-native-gesture-handler@1.10.3
+npm install @react-navigation/bottom-tabs@6.0.8
+npm install @react-navigation/drawer@6.1.7
+npm install react-native-vector-icons@8.1.0
+
+
+Step 6: ปรับโครงสร้างโปรเจ็ตก์
+----
+ตัวอย่างการวางโครงสร้างโฟลเดอร์และไฟล์โปรเจ็กต์
+----
+tabAndDrawerRNApp
+    __tests__
+    .bundle
+    .git
+    .vscode
+    android
+    ios
+    node_modules
+    src
+        |-- assets
+            |-- images
+        |-- components
+        |-- model
+        |-- navigation
+            |-- stack-navigators
+                 |-- HomeStackNavigator.js
+                 |-- LocationsStackNavigator.js
+                 |-- MyRewardsStackNavigator.js
+                 |-- BookStackNavigator.js
+                 |-- ContactStackNavigator.js
+            |-- BottomTabNavigator.js
+            |-- DrawerNavigator.js
+        |-- screens
+        |-- themes
+            |-- MainTheme.js
+    .buckconfig
+    .eslintrc.js
+    .flowconfig
+    .gitignore
+    .prettierrc.js
+    .ruby-version
+    .watchmanconfig
+    App.js
+    app.json
+    babel.config.js
+    Gemfile
+    Gemfile.lock
+    index.js
+    metro.config.js
+    package-lock.json
+    package.json
+
+---------------------------------------------------------------
+Day 5
+---------------------------------------------------------------
+Step 1: คำสั่งขึ้นโปรเจ็กต์ใหม่
+---
+$ react-native init contactlistapp --version 0.64.3 หรือ
+$ npx react-native init contactlistapp --version 0.64.3
+
+Step 2: เปิดเข้า VS Code
+---
+$ code contactlistapp -r
+
+Step 3: Start Metro
+---
+$ npm start หรือ
+$ npx react-native start
+
+*** หาก port 8081 ไม่ว่างให้ทำการเคลียร์ก่อน
+$ taskkill /F /IM node.exe  (Windows)
+
+$ ps aux | grep node (MacOS)
+$ kill -9 PID  (MacOS)
+
+Step 4: Run Application
+---
+ก่อนจะรันขึ้น android ลองเช็คว่าเห็นอุปกรณ์หรือเปล่า
+---
+$ adb devices
+
+Android
+---
+$ npm run android หรือ 
+$ npx react-native run-android
+
+iOS
+---
+$ npm run ios หรือ
+$ npx react-native run-ios
+
+Note:: การ Config Eslint (.eslintrc.js)
+---
+module.exports = {
+  root: true,
+  semi: [2, "never"],
+  extends: '@react-native-community',
+}
+
+Note:: การ Config Prettier (.prettierrc.js)
+---
+module.exports = {
+  bracketSpacing: true,
+  jsxBracketSameLine: true,
+  singleQuote: true,
+  trailingComma: 'all',
+  arrowParens: 'avoid',
+  tabWidth: 2,
+  semi: false,
+}
+
+Step 5: ติดตั้ง Dependency สำหรับทำ Navigation
+---
+จำเป็น
+---
+npm install @react-navigation/native@6.0.8
+npm install @react-navigation/stack@6.1.1
+npm install @react-navigation/bottom-tabs@6.2.0
+npm install @react-navigation/drawer@6.1.7
+npm install react-native-screens@3.13.1
+npm install react-native-safe-area-context@4.2.1
+npm install react-native-reanimated@2.2.2
+npm install react-native-gesture-handler@1.10.3
+npm install react-native-vector-icons@9.1.0
+
+---
+react-native link
+
+Step 6: ปรับ compileSdkVersion ให้เป็น 30
+---
+android\build.gradle
+---
+    ext {
+        buildToolsVersion = "29.0.3"
+        minSdkVersion = 21
+        compileSdkVersion = 30
+        targetSdkVersion = 29
+        ndkVersion = "20.1.5948944"
+    }
+
+
+Step 7: ปรับโครงสร้างโปรเจ็ตก์
+----
+ตัวอย่างการวางโครงสร้างโฟลเดอร์และไฟล์โปรเจ็กต์
+----
+contactlistapp
+    __tests__
+    .bundle
+    .git
+    .vscode
+    android
+    ios
+    node_modules
+    src
+        |-- assets
+            |-- images
+                |-- rnbg3.jpeg
+                |-- rngb1.jpg
+                |-- samit_profile.jpg
+        |-- components
+            |-- Row.js
+            |-- CustomDrawer.js
+        |-- model
+            |-- user.js
+        |-- navigations
+            |-- AppStack.js
+            |-- DrawerStack.js
+            |-- Navigation.js
+            |--TabStack.js
+        |-- screens
+            |-- ContactsList.js
+            |-- ContactDetail.js
+            |-- ActionsList.js
+            |-- ActionDetail.js
+            |-- Settings.js
+        |-- themes
+            |-- MainTheme.js
+    .buckconfig
+    .eslintrc.js
+    .flowconfig
+    .gitignore
+    .prettierrc.js
+    .ruby-version
+    .watchmanconfig
+    App.js
+    app.json
+    babel.config.js
+    Gemfile
+    Gemfile.lock
+    index.js
+    metro.config.js
+    package-lock.json
+    package.json
+
+
+---------------------------------------------------------------
+Day6
+---------------------------------------------------------------
+ตัวอย่างการวางโครงสร้างโฟลเดอร์และไฟล์โปรเจ็กต์
+----
+contactlistapp
+    __tests__
+    .bundle
+    .git
+    .vscode
+    android
+    ios
+    node_modules
+    src
+        |-- assets
+            |-- images
+                |-- rnbg3.jpeg
+                |-- rngb1.jpg
+                |-- samit_profile.jpg
+        |-- components
+            |-- Row.js
+            |-- CustomButton.js
+            |-- CustomDrawer.js
+            |-- CustomInput.js
+            |-- SocialSignInButtons.js
+        |-- Context
+            |-- context.js
+        |-- model
+            |-- user.js
+        |-- navigations
+            |-- AppStack.js
+            |-- AuthStack.js
+            |-- DrawerStack.js
+            |-- Navigation.js
+            |-- RootStack.js
+            |--TabStack.js
+        |-- screens
+            |-- ContactsList.js
+            |-- ContactDetail.js
+            |-- ActionsList.js
+            |-- ActionDetail.js
+            |-- Modal.js
+            |-- SignIn.js
+            |-- SignUp.js
+            |-- ConfirmEmailScreen.js
+            |-- ForgotPasswordScreen.js
+            |-- NewPasswordScreen.js
+            |-- Settings.js
+            |-- SplashScreen.js
+        |-- themes
+            |-- MainTheme.js
+    .buckconfig
+    .eslintrc.js
+    .flowconfig
+    .gitignore
+    .prettierrc.js
+    .ruby-version
+    .watchmanconfig
+    App.js
+    app.json
+    babel.config.js
+    Gemfile
+    Gemfile.lock
+    index.js
+    metro.config.js
+    package-lock.json
+    package.json
